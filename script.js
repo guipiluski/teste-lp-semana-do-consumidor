@@ -112,83 +112,162 @@ function toggleAcc(btn){
   if(!open)item.classList.add('open');
 }
 
-/* UGC CAROUSEL */
+/* UGC CAROUSEL — INFINITE LOOP */
 (function () {
-  const track = document.querySelector('.ugc-track');
+  var track = document.querySelector('.ugc-track');
   if (!track) return;
-  const slides = Array.from(track.querySelectorAll('.ugc-slide'));
-  let activeIndex = 0;
-  let programmingScroll = false;
 
-  function getVideo(slide) { return slide.querySelector('video'); }
+  /* ── 1. Coletar slides originais e clonar ── */
+  var origSlides = Array.from(track.querySelectorAll('.ugc-slide'));
+  var N = origSlides.length;
+  if (N === 0) return;
 
-  function setActive(index, doScroll) {
-    if (index < 0 || index >= slides.length) return;
-    activeIndex = index;
-    slides.forEach(function (slide, i) {
-      var video = getVideo(slide);
-      if (i === activeIndex) {
+  /* Clonar antes (prepend) */
+  var frag = document.createDocumentFragment();
+  origSlides.forEach(function (s) {
+    var c = s.cloneNode(true);
+    c.dataset.clone = 'before';
+    frag.appendChild(c);
+  });
+  track.insertBefore(frag, track.firstChild);
+
+  /* Clonar depois (append) */
+  origSlides.forEach(function (s) {
+    var c = s.cloneNode(true);
+    c.dataset.clone = 'after';
+    track.appendChild(c);
+  });
+
+  /* Layout: [N clones-before][N originais][N clones-after] */
+  var all = Array.from(track.querySelectorAll('.ugc-slide'));
+  var realActive = 0; /* índice real, 0-based dentro dos N originais */
+  var busy = false;
+
+  function ri(idx) { return idx % N; }
+  function vid(slide) { return slide.querySelector('video'); }
+
+  /* Centraliza em slideIndex de `all` sem animação */
+  function jumpTo(idx) {
+    var s = all[idx];
+    if (!s) return;
+    var target = s.offsetLeft - track.clientWidth / 2 + s.offsetWidth / 2;
+    busy = true;
+    track.style.scrollSnapType = 'none';
+    track.scrollLeft = target;
+    requestAnimationFrame(function () {
+      track.style.scrollSnapType = '';
+      setTimeout(function () { busy = false; }, 80);
+    });
+  }
+
+  /* Centraliza com scroll suave */
+  function smoothTo(idx) {
+    var s = all[idx];
+    if (!s) return;
+    var target = s.offsetLeft - track.clientWidth / 2 + s.offsetWidth / 2;
+    busy = true;
+    track.scrollTo({ left: target, behavior: 'smooth' });
+    setTimeout(function () { busy = false; }, 700);
+  }
+
+  /* Instância de realIndex mais próxima do centro visível */
+  function nearestOf(r) {
+    var center = track.scrollLeft + track.clientWidth / 2;
+    var best = N + r;
+    var bestDist = Infinity;
+    [r, N + r, 2 * N + r].forEach(function (i) {
+      if (!all[i]) return;
+      var d = Math.abs(all[i].offsetLeft + all[i].offsetWidth / 2 - center);
+      if (d < bestDist) { bestDist = d; best = i; }
+    });
+    return best;
+  }
+
+  /* Atualiza classes/vídeos; scroll opcional para o original */
+  function setActive(r, doScroll) {
+    realActive = r;
+    all.forEach(function (slide, i) {
+      var v = vid(slide);
+      if (ri(i) === r) {
         slide.classList.add('active');
-        if (video) {
-          if (video.readyState === 0) video.load();
-          video.play().catch(function () {});
-        }
+        if (v) { if (v.readyState === 0) v.load(); v.play().catch(function () {}); }
       } else {
         slide.classList.remove('active');
-        if (video) video.pause();
+        if (v) v.pause();
       }
     });
-    if (doScroll !== false) scrollToActive();
+    if (doScroll !== false) smoothTo(N + r);
   }
 
-  function scrollToActive() {
-    var slide = slides[activeIndex];
-    if (!slide) return;
-    var target = slide.offsetLeft - (track.clientWidth / 2) + (slide.offsetWidth / 2);
-    programmingScroll = true;
-    track.scrollTo({ left: target, behavior: 'smooth' });
-    setTimeout(function () { programmingScroll = false; }, 700);
-  }
-
-  /* Desktop: click on inactive slide */
-  slides.forEach(function (slide, i) {
+  /* ── 2. Click em slide ── */
+  all.forEach(function (slide, i) {
     slide.addEventListener('click', function (e) {
       if (e.target.closest('.ugc-mute-btn')) return;
-      if (i !== activeIndex) setActive(i);
+      var r = ri(i);
+      if (r === realActive) return;
+      var ni = nearestOf(r);
+      realActive = r;
+      all.forEach(function (s, j) {
+        var v = vid(s);
+        if (ri(j) === r) {
+          s.classList.add('active');
+          if (v) { if (v.readyState === 0) v.load(); v.play().catch(function () {}); }
+        } else {
+          s.classList.remove('active');
+          if (v) v.pause();
+        }
+      });
+      busy = true;
+      var target = all[ni].offsetLeft - track.clientWidth / 2 + all[ni].offsetWidth / 2;
+      track.scrollTo({ left: target, behavior: 'smooth' });
+      setTimeout(function () { busy = false; }, 700);
     });
   });
 
-  /* Mute toggle */
+  /* ── 3. Mute — sincroniza todas as instâncias ── */
   track.addEventListener('click', function (e) {
     var btn = e.target.closest('.ugc-mute-btn');
     if (!btn) return;
-    var slide = btn.closest('.ugc-slide');
-    var video = slide && getVideo(slide);
-    if (!video) return;
-    video.muted = !video.muted;
-    var im = btn.querySelector('.ugc-icon-muted');
-    var iu = btn.querySelector('.ugc-icon-unmuted');
-    if (im) im.style.display = video.muted ? '' : 'none';
-    if (iu) iu.style.display = video.muted ? 'none' : '';
+    var parentSlide = btn.closest('.ugc-slide');
+    var idx = all.indexOf(parentSlide);
+    var r = ri(idx);
+    var origVideo = vid(all[N + r]);
+    var newMuted = origVideo ? !origVideo.muted : true;
+    all.forEach(function (s, j) {
+      if (ri(j) !== r) return;
+      var v = vid(s);
+      if (v) v.muted = newMuted;
+      var im = s.querySelector('.ugc-icon-muted');
+      var iu = s.querySelector('.ugc-icon-unmuted');
+      if (im) im.style.display = newMuted ? '' : 'none';
+      if (iu) iu.style.display = newMuted ? 'none' : '';
+    });
   });
 
-  /* Mobile: detect center card after scroll settles */
+  /* ── 4. Scroll: detecta centro e faz jump se estiver em zona de clone ── */
   var scrollTimer;
   track.addEventListener('scroll', function () {
-    if (programmingScroll) return;
+    if (busy) return;
     clearTimeout(scrollTimer);
     scrollTimer = setTimeout(function () {
-      var trackCenter = track.scrollLeft + track.clientWidth / 2;
-      var closest = 0;
-      var closestDist = Infinity;
-      slides.forEach(function (slide, i) {
-        var dist = Math.abs((slide.offsetLeft + slide.offsetWidth / 2) - trackCenter);
-        if (dist < closestDist) { closestDist = dist; closest = i; }
+      var center = track.scrollLeft + track.clientWidth / 2;
+      var closest = 0, closestDist = Infinity;
+      all.forEach(function (slide, i) {
+        var d = Math.abs(slide.offsetLeft + slide.offsetWidth / 2 - center);
+        if (d < closestDist) { closestDist = d; closest = i; }
       });
-      if (closest !== activeIndex) setActive(closest, false);
-    }, 120);
+      var r = ri(closest);
+      if (r !== realActive) setActive(r, false);
+      /* Se está na zona de clone, salta para o original sem animação */
+      if (closest < N || closest >= 2 * N) jumpTo(N + r);
+    }, 150);
   });
 
-  /* Init: first card active, no scroll */
-  setActive(0, false);
+  /* ── 5. Init: posiciona no primeiro original ── */
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () {
+      jumpTo(N);
+      setActive(0, false);
+    });
+  });
 })();

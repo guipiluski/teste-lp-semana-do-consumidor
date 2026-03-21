@@ -211,7 +211,7 @@ footer{background:var(--juice-deep);padding:28px 24px;text-align:center;border-t
 .ugc-title{margin-bottom:0}
 .ugc-track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:56px 0 28px;scrollbar-width:none;-ms-overflow-style:none;align-items:center}
 .ugc-track::-webkit-scrollbar{display:none}
-.ugc-track::before,.ugc-track::after{content:'';flex-shrink:0;width:calc(50vw - 149px)}
+/* infinite loop: spacers replaced by JS-cloned slides */
 /* Slide = scroll-snap unit, fixed layout width */
 .ugc-slide{flex-shrink:0;width:297px;aspect-ratio:9/16;scroll-snap-align:center;cursor:pointer;position:relative}
 /* Card = visual element with scale/filter */
