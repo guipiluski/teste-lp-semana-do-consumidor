@@ -55,12 +55,16 @@ const PROMO_DEADLINE = new Date("2026-03-31T23:59:59");
 
 function renderProducts() {
   const grid = document.getElementById('products-grid');
-  grid.innerHTML = PRODUCTS.map(p => {
+  grid.innerHTML = PRODUCTS.map((p, idx) => {
     const url = `${p.pdpUrl}?${UTM}&utm_content=${p.id}`;
+    /* First card = LCP element: eager + high priority; rest lazy */
+    const imgAttrs = idx === 0
+      ? 'fetchpriority="high"'
+      : 'loading="lazy"';
     return `
     <a href="${url}" class="prod-card" style="text-decoration:none;color:inherit">
       <div class="prod-card-img">
-        <img src="${p.img}" alt="${p.name} ${p.qty}" loading="lazy" width="400" height="400"
+        <img src="${p.img}" alt="${p.name} ${p.qty}" ${imgAttrs} width="400" height="400"
           onerror="this.style.display='none';this.parentElement.style.fontSize='2.5rem';this.parentElement.innerHTML='🧃'" />
       </div>
       <div class="prod-card-body">
@@ -143,14 +147,31 @@ function toggleAcc(btn){
   var realActive = 0; /* índice real, 0-based dentro dos N originais */
   var busy = false;
 
+  /* PERF: remove poster dos clones → evita carregar 14 imagens extras (~350KB) */
+  all.forEach(function (slide) {
+    if (slide.dataset.clone) {
+      var v = slide.querySelector('video');
+      if (v) v.removeAttribute('poster');
+    }
+  });
+
   function ri(idx) { return idx % N; }
   function vid(slide) { return slide.querySelector('video'); }
+  function isClone(slide) { return !!slide.dataset.clone; }
 
-  /* Centraliza em slideIndex de `all` sem animação */
+  /* PERF: cache de posições → evita forced reflow ao ler offsetLeft no scroll */
+  var posCache = [];
+  function buildPosCache() {
+    posCache = all.map(function (s) {
+      return { left: s.offsetLeft, width: s.offsetWidth };
+    });
+  }
+
+  /* Centraliza em slideIndex de `all` sem animação (usa cache) */
   function jumpTo(idx) {
-    var s = all[idx];
-    if (!s) return;
-    var target = s.offsetLeft - track.clientWidth / 2 + s.offsetWidth / 2;
+    var pos = posCache[idx];
+    if (!pos) return;
+    var target = pos.left - track.clientWidth / 2 + pos.width / 2;
     busy = true;
     track.style.scrollSnapType = 'none';
     track.scrollLeft = target;
@@ -160,40 +181,46 @@ function toggleAcc(btn){
     });
   }
 
-  /* Centraliza com scroll suave */
+  /* Centraliza com scroll suave (usa cache) */
   function smoothTo(idx) {
-    var s = all[idx];
-    if (!s) return;
-    var target = s.offsetLeft - track.clientWidth / 2 + s.offsetWidth / 2;
+    var pos = posCache[idx];
+    if (!pos) return;
+    var target = pos.left - track.clientWidth / 2 + pos.width / 2;
     busy = true;
     track.scrollTo({ left: target, behavior: 'smooth' });
     setTimeout(function () { busy = false; }, 700);
   }
 
-  /* Instância de realIndex mais próxima do centro visível */
+  /* Instância de realIndex mais próxima do centro visível (usa cache) */
   function nearestOf(r) {
     var center = track.scrollLeft + track.clientWidth / 2;
     var best = N + r;
     var bestDist = Infinity;
     [r, N + r, 2 * N + r].forEach(function (i) {
-      if (!all[i]) return;
-      var d = Math.abs(all[i].offsetLeft + all[i].offsetWidth / 2 - center);
+      var pos = posCache[i];
+      if (!pos) return;
+      var d = Math.abs(pos.left + pos.width / 2 - center);
       if (d < bestDist) { bestDist = d; best = i; }
     });
     return best;
   }
 
-  /* Atualiza classes/vídeos; scroll opcional para o original */
+  /* Atualiza classes/vídeos.
+     PERF: clones nunca carregam/tocam vídeo → elimina 3x de download (~13MB) */
   function setActive(r, doScroll) {
     realActive = r;
     all.forEach(function (slide, i) {
       var v = vid(slide);
       if (ri(i) === r) {
         slide.classList.add('active');
-        if (v) { if (v.readyState === 0) v.load(); v.play().catch(function () {}); }
+        /* Somente o original (não clone) carrega e toca */
+        if (v && !isClone(slide)) {
+          if (v.readyState === 0) v.load();
+          v.play().catch(function () {});
+        }
       } else {
         slide.classList.remove('active');
-        if (v) v.pause();
+        if (v && !isClone(slide)) v.pause();
       }
     });
     if (doScroll !== false) smoothTo(N + r);
@@ -218,7 +245,8 @@ function toggleAcc(btn){
         }
       });
       busy = true;
-      var target = all[ni].offsetLeft - track.clientWidth / 2 + all[ni].offsetWidth / 2;
+      var posNi = posCache[ni];
+      var target = posNi.left - track.clientWidth / 2 + posNi.width / 2;
       track.scrollTo({ left: target, behavior: 'smooth' });
       setTimeout(function () { busy = false; }, 700);
     });
@@ -244,7 +272,7 @@ function toggleAcc(btn){
     });
   });
 
-  /* ── 4. Scroll: detecta centro e faz jump se estiver em zona de clone ── */
+  /* ── 4. Scroll: detecta centro usando cache (sem forced reflow) ── */
   var scrollTimer;
   track.addEventListener('scroll', function () {
     if (busy) return;
@@ -252,8 +280,8 @@ function toggleAcc(btn){
     scrollTimer = setTimeout(function () {
       var center = track.scrollLeft + track.clientWidth / 2;
       var closest = 0, closestDist = Infinity;
-      all.forEach(function (slide, i) {
-        var d = Math.abs(slide.offsetLeft + slide.offsetWidth / 2 - center);
+      posCache.forEach(function (pos, i) {
+        var d = Math.abs(pos.left + pos.width / 2 - center);
         if (d < closestDist) { closestDist = d; closest = i; }
       });
       var r = ri(closest);
@@ -263,9 +291,10 @@ function toggleAcc(btn){
     }, 150);
   });
 
-  /* ── 5. Init: posiciona no primeiro original ── */
+  /* ── 5. Init: build cache (1 batch read), posiciona no primeiro original ── */
   requestAnimationFrame(function () {
     requestAnimationFrame(function () {
+      buildPosCache(); /* lê todos offsetLeft de uma vez, antes de qualquer write */
       jumpTo(N);
       setActive(0, false);
     });

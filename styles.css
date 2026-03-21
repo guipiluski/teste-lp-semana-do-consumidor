@@ -95,7 +95,7 @@ img{display:block;max-width:100%}
 /* TOP BANNER */
 .top-banner{background:var(--juice-deep);position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,.06)}
 .banner-marquee-wrap{background:var(--juice);height:30px;overflow:hidden;display:flex;align-items:center}
-.banner-marquee-track{display:flex;gap:40px;white-space:nowrap;animation:marquee-a 28s linear infinite;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff}
+.banner-marquee-track{display:flex;gap:40px;white-space:nowrap;animation:marquee-a 28s linear infinite;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;will-change:transform}
 .banner-marquee-track strong{color:var(--citrus)}
 .banner-main{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;padding:8px 20px}
 .banner-offer-txt{font-size:.78rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px}
@@ -118,7 +118,7 @@ img{display:block;max-width:100%}
 .hero-chip span{width:6px;height:6px;border-radius:50%;background:var(--juice)}
 .hero-social{margin-top:14px;display:flex;align-items:center;gap:8px;font-size:.75rem;color:var(--tx-muted)}
 .hero-logo-wrap{flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:32px 40px;background:var(--surface-base);border:1.5px solid var(--border-subtle);border-radius:var(--r-xl);box-shadow:var(--shadow-md);animation:fadeUp .5s .1s var(--ease-spring) both}
-.hero-logo-wrap img{width:180px;height:auto}
+.hero-logo-wrap img{width:180px;height:60px}
 
 /* SECTIONS */
 .section{padding:var(--sp-12) var(--sp-6);max-width:960px;margin:0 auto}
@@ -130,7 +130,8 @@ img{display:block;max-width:100%}
 .s-title em{color:var(--juice-dark);font-style:normal}
 
 /* PRODUCTS */
-.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:16px}
+/* min-height reserves layout space before JS renders cards → prevents CLS */
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:16px;min-height:560px}
 .prod-name{font-size:.88rem;font-weight:700;color:var(--tx-primary);line-height:1.3;margin-bottom:2px}
 .prod-qty-tag{font-size:.7rem;color:var(--tx-muted);font-weight:500}
 /* FIX 5: reviews row — rendered above title in JS */
@@ -178,8 +179,9 @@ footer{background:var(--juice-deep);padding:28px 24px;text-align:center;border-t
 
 /* KEYFRAMES */
 @keyframes marquee-a{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@keyframes badge-p{0%,100%{box-shadow:0 0 0 0 rgba(245,196,0,.4)}50%{box-shadow:0 0 0 7px rgba(245,196,0,0)}}
-@keyframes glow-p{0%,100%{box-shadow:0 0 16px rgba(15,184,109,.25)}50%{box-shadow:0 0 32px rgba(15,184,109,.45)}}
+/* opacity-only pulses: composited, no layout/paint → eliminates non-composited animation warning */
+@keyframes badge-p{0%,100%{opacity:1}50%{opacity:.65}}
+@keyframes glow-p{0%,100%{opacity:1}50%{opacity:.75}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
 /* HERO SOCIAL — AVATAR STACK */
