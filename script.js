@@ -1,106 +1,88 @@
 const PRODUCTS = [
   {
-    id:"laranja-6", name:"Noway Laranja Proteico", qty:"6 unidades",
-    badge:{label:"Voltou!",type:"badge-volt"}, featured:false,
-    img:"https://nowayco.com.br/_next/image?url=https%3A%2F%2Funbox-customer-images-production.s3.amazonaws.com%2F6Cf3ogEqtTKRqAnHc%2Fproducts%2FNowayFresh6Un-%2FNowayFresh6Un-1%2F1529baee29afc3504cd9ed1986e92bcfc358d6c46ed02b5d9880ffe9d1ed879f&w=640&q=75",
-    priceFrom:null, priceTo:"R$99,99", priceUnit:"R$16,66/un", discount:null,
-    installment:"ou 3x de R$33,33 sem juros",
-    reviewScore:"4.9", reviewCount:"127 avaliações",
-    pdpUrl:"https://nowayco.com.br/produto/Noway-Laranja-Proteico-6-unidades", ctaLabel:"Ver produto →"
-  },
-  {
-    id:"laranja-12", name:"Noway Laranja Proteico", qty:"12 unidades",
-    badge:{label:"Voltou!",type:"badge-volt"}, featured:false,
-    img:"https://nowayco.com.br/_next/image?url=https%3A%2F%2Funbox-customer-images-production.s3.amazonaws.com%2F6Cf3ogEqtTKRqAnHc%2Fproducts%2FNowayFresh16Un%2FNowayFresh12Un-1%2Fe5427ae361b5038362de0fe592b57d9e028fe8e51b3facf52c7c78a95f10ccf3&w=640&q=75",
-    priceFrom:"R$203,98", priceTo:"R$191,40", priceUnit:"R$15,95/un", discount:"6% OFF",
-    installment:"ou 3x de R$63,80 sem juros",
-    reviewScore:"4.9", reviewCount:"127 avaliações",
-    pdpUrl:"https://nowayco.com.br/produto/Noway-Laranja-Proteico-12-unidades", ctaLabel:"Ver produto →"
-  },
-  {
     id:"laranja-24", name:"Noway Laranja Proteico", qty:"24 unidades",
-    badge:{label:"Melhor preço",type:"badge-best"}, featured:false,
     img:"https://nowayco.com.br/_next/image?url=https%3A%2F%2Funbox-customer-images-production.s3.amazonaws.com%2F6Cf3ogEqtTKRqAnHc%2Fproducts%2FNowayFresh24Un%2FNowayFresh24Un-1%2F7f8878e2c0003c591aca2ea6d1ec086537d336fe5c36836721fd83b1300e5efe&w=640&q=75",
     priceFrom:"R$407,76", priceTo:"R$370,80", priceUnit:"R$15,45/un", discount:"9% OFF",
     installment:"ou 3x de R$123,60 sem juros",
-    reviewScore:"4.9", reviewCount:"127 avaliações",
     pdpUrl:"https://nowayco.com.br/produto/Noway-Laranja-Proteico-24-unidades", ctaLabel:"Ver produto →"
   },
   {
-    id:"combo-12", name:"Combo Noway", qty:"6 Pink Lemonade + 6 Laranja",
-    badge:{label:"Lançamento",type:"badge-new"}, featured:false,
-    img:"https://nowayco.com.br/_next/image?url=https%3A%2F%2Funbox-customer-images-production.s3.amazonaws.com%2F6Cf3ogEqtTKRqAnHc%2Fproducts%2FComboNowayP%2FComboNoway%2F5c4763a23322ebe4fe02f080db81ed42e46dbbd0a12c8e2a742ce929e9c9d6be&w=640&q=75",
-    priceFrom:null, priceTo:"R$191,40", priceUnit:"R$15,95/un", discount:"6% OFF",
-    installment:"ou 3x de R$63,80 sem juros",
-    reviewScore:"4.9", reviewCount:"45 avaliações",
-    pdpUrl:"https://nowayco.com.br/produto/Combo-Noway:-6-pink-lemonade-Proteico-+-6-Laranja-Proteico", ctaLabel:"Ver produto →"
-  },
-  {
-    id:"pink-6", name:"Pink Lemonade Proteico", qty:"6 unidades",
-    badge:{label:"Lançamento",type:"badge-new"}, featured:false,
-    img:"https://nowayco.com.br/_next/image?url=https%3A%2F%2Funbox-customer-images-production.s3.amazonaws.com%2F6Cf3ogEqtTKRqAnHc%2Fproducts%2FNPL300MLP6UN%2FNPL300ML6UN%2F5dd4fa5a6c96e33923b0777c6211c88d4333422b6111402588aec560bdac7b52&w=640&q=75",
-    priceFrom:null, priceTo:"R$99,99", priceUnit:"R$16,99/un", discount:null,
-    installment:"ou 3x de R$33,33 sem juros",
-    reviewScore:"4.9", reviewCount:"45 avaliações",
-    pdpUrl:"https://nowayco.com.br/produto/Pink-Lemonade-Proteico-6-unidades", ctaLabel:"Ver produto →"
-  },
-  {
-    id:"pink-12", name:"Pink Lemonade Proteico", qty:"12 unidades",
-    badge:{label:"Lançamento",type:"badge-new"}, featured:false,
-    img:"https://nowayco.com.br/_next/image?url=https%3A%2F%2Funbox-customer-images-production.s3.amazonaws.com%2F6Cf3ogEqtTKRqAnHc%2Fproducts%2FNPL300MLP12UN%2FNPL300ML12UN%2F8b0409e4e1c9304366fa6db60b8dd74620f9f621d340c478353648d486e34144&w=640&q=75",
+    id:"laranja-12", name:"Noway Laranja Proteico", qty:"12 unidades",
+    img:"https://nowayco.com.br/_next/image?url=https%3A%2F%2Funbox-customer-images-production.s3.amazonaws.com%2F6Cf3ogEqtTKRqAnHc%2Fproducts%2FNowayFresh16Un%2FNowayFresh12Un-1%2Fe5427ae361b5038362de0fe592b57d9e028fe8e51b3facf52c7c78a95f10ccf3&w=640&q=75",
     priceFrom:"R$203,98", priceTo:"R$191,40", priceUnit:"R$15,95/un", discount:"6% OFF",
     installment:"ou 3x de R$63,80 sem juros",
-    reviewScore:"4.9", reviewCount:"45 avaliações",
-    pdpUrl:"https://nowayco.com.br/produto/Pink-Lemonade-Proteico-12-unidades", ctaLabel:"Ver produto →"
+    pdpUrl:"https://nowayco.com.br/produto/Noway-Laranja-Proteico-12-unidades", ctaLabel:"Ver produto →"
+  },
+  {
+    id:"laranja-6", name:"Noway Laranja Proteico", qty:"6 unidades",
+    img:"https://nowayco.com.br/_next/image?url=https%3A%2F%2Funbox-customer-images-production.s3.amazonaws.com%2F6Cf3ogEqtTKRqAnHc%2Fproducts%2FNowayFresh6Un-%2FNowayFresh6Un-1%2F1529baee29afc3504cd9ed1986e92bcfc358d6c46ed02b5d9880ffe9d1ed879f&w=640&q=75",
+    priceFrom:null, priceTo:"R$99,99", priceUnit:"R$16,66/un", discount:null,
+    installment:"ou 3x de R$33,33 sem juros",
+    pdpUrl:"https://nowayco.com.br/produto/Noway-Laranja-Proteico-6-unidades", ctaLabel:"Ver produto →"
   },
   {
     id:"pink-24", name:"Pink Lemonade Proteico", qty:"24 unidades",
-    badge:{label:"Lançamento",type:"badge-new"}, featured:false,
     img:"https://nowayco.com.br/_next/image?url=https%3A%2F%2Funbox-customer-images-production.s3.amazonaws.com%2F6Cf3ogEqtTKRqAnHc%2Fproducts%2FNPL300MLP24UN%2FNPL300ML24UN%2Fb5859bef470d3b52b385597957ecd6fac4fb5ebfbab6df58aa6fa042b00af6a2&w=640&q=75",
     priceFrom:"R$407,76", priceTo:"R$370,80", priceUnit:"R$15,45/un", discount:"9% OFF",
     installment:"ou 3x de R$123,60 sem juros",
-    reviewScore:"4.9", reviewCount:"45 avaliações",
     pdpUrl:"https://nowayco.com.br/produto/Pink-Lemonade-Proteico-24-unidades", ctaLabel:"Ver produto →"
+  },
+  {
+    id:"pink-12", name:"Pink Lemonade Proteico", qty:"12 unidades",
+    img:"https://nowayco.com.br/_next/image?url=https%3A%2F%2Funbox-customer-images-production.s3.amazonaws.com%2F6Cf3ogEqtTKRqAnHc%2Fproducts%2FNPL300MLP12UN%2FNPL300ML12UN%2F8b0409e4e1c9304366fa6db60b8dd74620f9f621d340c478353648d486e34144&w=640&q=75",
+    priceFrom:"R$203,98", priceTo:"R$191,40", priceUnit:"R$15,95/un", discount:"6% OFF",
+    installment:"ou 3x de R$63,80 sem juros",
+    pdpUrl:"https://nowayco.com.br/produto/Pink-Lemonade-Proteico-12-unidades", ctaLabel:"Ver produto →"
+  },
+  {
+    id:"pink-6", name:"Pink Lemonade Proteico", qty:"6 unidades",
+    img:"https://nowayco.com.br/_next/image?url=https%3A%2F%2Funbox-customer-images-production.s3.amazonaws.com%2F6Cf3ogEqtTKRqAnHc%2Fproducts%2FNPL300MLP6UN%2FNPL300ML6UN%2F5dd4fa5a6c96e33923b0777c6211c88d4333422b6111402588aec560bdac7b52&w=640&q=75",
+    priceFrom:null, priceTo:"R$99,99", priceUnit:"R$16,99/un", discount:null,
+    installment:"ou 3x de R$33,33 sem juros",
+    pdpUrl:"https://nowayco.com.br/produto/Pink-Lemonade-Proteico-6-unidades", ctaLabel:"Ver produto →"
+  },
+  {
+    id:"combo-12", name:"Combo Noway", qty:"6 Pink Lemonade + 6 Laranja",
+    img:"https://nowayco.com.br/_next/image?url=https%3A%2F%2Funbox-customer-images-production.s3.amazonaws.com%2F6Cf3ogEqtTKRqAnHc%2Fproducts%2FComboNowayP%2FComboNoway%2F5c4763a23322ebe4fe02f080db81ed42e46dbbd0a12c8e2a742ce929e9c9d6be&w=640&q=75",
+    priceFrom:null, priceTo:"R$191,40", priceUnit:"R$15,95/un", discount:"6% OFF",
+    installment:"ou 3x de R$63,80 sem juros",
+    pdpUrl:"https://nowayco.com.br/produto/Combo-Noway:-6-pink-lemonade-Proteico-+-6-Laranja-Proteico", ctaLabel:"Ver produto →"
   }
 ];
+
+const UTM = "utm_source=lp-semana-consumidor&utm_medium=product-card&utm_campaign=semana-consumidor-2026";
 const PROMO_DEADLINE = new Date("2026-03-31T23:59:59");
 
-/* PRODUCTS RENDER: FIX 5 (reviews above title) + FIX 6 (badges in body, not over image) */
 function renderProducts() {
   const grid = document.getElementById('products-grid');
-  grid.innerHTML = PRODUCTS.map(p => `
-    <a href="${p.pdpUrl}" class="prod-card ${p.featured ? 'card-featured' : ''}" style="text-decoration:none;color:inherit">
+  grid.innerHTML = PRODUCTS.map(p => {
+    const url = `${p.pdpUrl}?${UTM}&utm_content=${p.id}`;
+    return `
+    <a href="${url}" class="prod-card" style="text-decoration:none;color:inherit">
       <div class="prod-card-img">
-        <img src="${p.img}" alt="${p.name} ${p.qty}" loading="lazy"
+        <img src="${p.img}" alt="${p.name} ${p.qty}" loading="lazy" width="400" height="400"
           onerror="this.style.display='none';this.parentElement.style.fontSize='2.5rem';this.parentElement.innerHTML='🧃'" />
       </div>
       <div class="prod-card-body">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;min-height:22px">
-          ${p.reviewScore
-            ? `<div class="review-mini"><span class="stars stars-sm">★★★★★</span><span class="review-score">${p.reviewScore}</span><span class="review-count">(${p.reviewCount})</span></div>`
-            : `<div></div>`}
-          <span class="badge ${p.badge.type}">${p.badge.label}</span>
-        </div>
-        <div>
+        <div class="prod-name-block">
           <div class="prod-name">${p.name}</div>
           <div class="prod-qty-tag">${p.qty}</div>
         </div>
-        <div>
+        <div class="prod-price-block">
           <div class="price-row">
             ${p.priceFrom ? `<span class="price-old">${p.priceFrom}</span>` : ''}
             <span class="price-new">${p.priceTo}</span>
-            ${p.discount ? `<span class="badge badge-off">${p.discount}</span>` : ''}
           </div>
-          ${p.priceUnit ? `<div style="margin-top:4px"><span class="tag">${p.priceUnit}</span></div>` : ''}
           <div class="price-install">${p.installment}</div>
         </div>
         <span class="prod-cta">${p.ctaLabel}</span>
       </div>
-    </a>`).join('');
+    </a>`;
+  }).join('');
 }
 renderProducts();
 
-/* COUNTDOWN: FIX 1+2 */
+/* COUNTDOWN */
 function pad(n){return String(n).padStart(2,'0')}
 function updateCountdown(){
   const diff = PROMO_DEADLINE - new Date();
@@ -129,3 +111,163 @@ function toggleAcc(btn){
   document.querySelectorAll('.acc-item').forEach(i=>i.classList.remove('open'));
   if(!open)item.classList.add('open');
 }
+
+/* UGC CAROUSEL — INFINITE LOOP */
+(function () {
+  var track = document.querySelector('.ugc-track');
+  if (!track) return;
+
+  /* ── 1. Coletar slides originais e clonar ── */
+  var origSlides = Array.from(track.querySelectorAll('.ugc-slide'));
+  var N = origSlides.length;
+  if (N === 0) return;
+
+  /* Clonar antes (prepend) */
+  var frag = document.createDocumentFragment();
+  origSlides.forEach(function (s) {
+    var c = s.cloneNode(true);
+    c.dataset.clone = 'before';
+    frag.appendChild(c);
+  });
+  track.insertBefore(frag, track.firstChild);
+
+  /* Clonar depois (append) */
+  origSlides.forEach(function (s) {
+    var c = s.cloneNode(true);
+    c.dataset.clone = 'after';
+    track.appendChild(c);
+  });
+
+  /* Layout: [N clones-before][N originais][N clones-after] */
+  var all = Array.from(track.querySelectorAll('.ugc-slide'));
+  var realActive = 0; /* índice real, 0-based dentro dos N originais */
+  var busy = false;
+
+  function ri(idx) { return idx % N; }
+  function vid(slide) { return slide.querySelector('video'); }
+
+  /* Centraliza em slideIndex de `all` sem animação */
+  function jumpTo(idx) {
+    var s = all[idx];
+    if (!s) return;
+    var target = s.offsetLeft - track.clientWidth / 2 + s.offsetWidth / 2;
+    busy = true;
+    track.style.scrollSnapType = 'none';
+    track.scrollLeft = target;
+    requestAnimationFrame(function () {
+      track.style.scrollSnapType = '';
+      setTimeout(function () { busy = false; }, 80);
+    });
+  }
+
+  /* Centraliza com scroll suave */
+  function smoothTo(idx) {
+    var s = all[idx];
+    if (!s) return;
+    var target = s.offsetLeft - track.clientWidth / 2 + s.offsetWidth / 2;
+    busy = true;
+    track.scrollTo({ left: target, behavior: 'smooth' });
+    setTimeout(function () { busy = false; }, 700);
+  }
+
+  /* Instância de realIndex mais próxima do centro visível */
+  function nearestOf(r) {
+    var center = track.scrollLeft + track.clientWidth / 2;
+    var best = N + r;
+    var bestDist = Infinity;
+    [r, N + r, 2 * N + r].forEach(function (i) {
+      if (!all[i]) return;
+      var d = Math.abs(all[i].offsetLeft + all[i].offsetWidth / 2 - center);
+      if (d < bestDist) { bestDist = d; best = i; }
+    });
+    return best;
+  }
+
+  /* Atualiza classes/vídeos; scroll opcional para o original */
+  function setActive(r, doScroll) {
+    realActive = r;
+    all.forEach(function (slide, i) {
+      var v = vid(slide);
+      if (ri(i) === r) {
+        slide.classList.add('active');
+        if (v) { if (v.readyState === 0) v.load(); v.play().catch(function () {}); }
+      } else {
+        slide.classList.remove('active');
+        if (v) v.pause();
+      }
+    });
+    if (doScroll !== false) smoothTo(N + r);
+  }
+
+  /* ── 2. Click em slide ── */
+  all.forEach(function (slide, i) {
+    slide.addEventListener('click', function (e) {
+      if (e.target.closest('.ugc-mute-btn')) return;
+      var r = ri(i);
+      if (r === realActive) return;
+      var ni = nearestOf(r);
+      realActive = r;
+      all.forEach(function (s, j) {
+        var v = vid(s);
+        if (ri(j) === r) {
+          s.classList.add('active');
+          if (v) { if (v.readyState === 0) v.load(); v.play().catch(function () {}); }
+        } else {
+          s.classList.remove('active');
+          if (v) v.pause();
+        }
+      });
+      busy = true;
+      var target = all[ni].offsetLeft - track.clientWidth / 2 + all[ni].offsetWidth / 2;
+      track.scrollTo({ left: target, behavior: 'smooth' });
+      setTimeout(function () { busy = false; }, 700);
+    });
+  });
+
+  /* ── 3. Mute — sincroniza todas as instâncias ── */
+  track.addEventListener('click', function (e) {
+    var btn = e.target.closest('.ugc-mute-btn');
+    if (!btn) return;
+    var parentSlide = btn.closest('.ugc-slide');
+    var idx = all.indexOf(parentSlide);
+    var r = ri(idx);
+    var origVideo = vid(all[N + r]);
+    var newMuted = origVideo ? !origVideo.muted : true;
+    all.forEach(function (s, j) {
+      if (ri(j) !== r) return;
+      var v = vid(s);
+      if (v) v.muted = newMuted;
+      var im = s.querySelector('.ugc-icon-muted');
+      var iu = s.querySelector('.ugc-icon-unmuted');
+      if (im) im.style.display = newMuted ? '' : 'none';
+      if (iu) iu.style.display = newMuted ? 'none' : '';
+    });
+  });
+
+  /* ── 4. Scroll: detecta centro e faz jump se estiver em zona de clone ── */
+  var scrollTimer;
+  track.addEventListener('scroll', function () {
+    if (busy) return;
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function () {
+      var center = track.scrollLeft + track.clientWidth / 2;
+      var closest = 0, closestDist = Infinity;
+      all.forEach(function (slide, i) {
+        var d = Math.abs(slide.offsetLeft + slide.offsetWidth / 2 - center);
+        if (d < closestDist) { closestDist = d; closest = i; }
+      });
+      var r = ri(closest);
+      if (r !== realActive) setActive(r, false);
+      /* Se está na zona de clone, salta para o original sem animação */
+      if (closest < N || closest >= 2 * N) jumpTo(N + r);
+    }, 150);
+  });
+
+  /* ── 5. Init: posiciona no primeiro original ── */
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () {
+      jumpTo(N);
+      setActive(0, false);
+    });
+  });
+})();
