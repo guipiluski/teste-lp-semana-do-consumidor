@@ -147,13 +147,7 @@ function toggleAcc(btn){
   var realActive = 0; /* índice real, 0-based dentro dos N originais */
   var busy = false;
 
-  /* PERF: remove poster dos clones → evita carregar 14 imagens extras (~350KB) */
-  all.forEach(function (slide) {
-    if (slide.dataset.clone) {
-      var v = slide.querySelector('video');
-      if (v) v.removeAttribute('poster');
-    }
-  });
+  /* Clones mostram o poster (thumbnail visível) mas nunca carregam/tocam o vídeo */
 
   function ri(idx) { return idx % N; }
   function vid(slide) { return slide.querySelector('video'); }
