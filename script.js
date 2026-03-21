@@ -72,9 +72,7 @@ function renderProducts() {
           <div class="price-row">
             ${p.priceFrom ? `<span class="price-old">${p.priceFrom}</span>` : ''}
             <span class="price-new">${p.priceTo}</span>
-            ${p.discount ? `<span class="badge badge-off">${p.discount}</span>` : ''}
           </div>
-          ${p.priceUnit ? `<div style="margin-top:6px"><span class="tag">${p.priceUnit}</span></div>` : ''}
           <div class="price-install">${p.installment}</div>
         </div>
         <span class="prod-cta">${p.ctaLabel}</span>
@@ -114,32 +112,83 @@ function toggleAcc(btn){
   if(!open)item.classList.add('open');
 }
 
-/* UGC: mute toggle */
-document.addEventListener('click', function(e) {
-  const btn = e.target.closest('.ugc-mute-btn');
-  if (!btn) return;
-  const card = btn.closest('.ugc-card');
-  const video = card && card.querySelector('video');
-  if (!video) return;
-  video.muted = !video.muted;
-  const iconMuted = btn.querySelector('.ugc-icon-muted');
-  const iconUnmuted = btn.querySelector('.ugc-icon-unmuted');
-  if (iconMuted) iconMuted.style.display = video.muted ? '' : 'none';
-  if (iconUnmuted) iconUnmuted.style.display = video.muted ? 'none' : '';
-});
+/* UGC CAROUSEL */
+(function () {
+  const track = document.querySelector('.ugc-track');
+  if (!track) return;
+  const slides = Array.from(track.querySelectorAll('.ugc-slide'));
+  let activeIndex = 0;
+  let programmingScroll = false;
 
-/* UGC: lazy play via IntersectionObserver */
-if ('IntersectionObserver' in window) {
-  const ugcObs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const video = entry.target;
-      if (entry.isIntersecting) {
-        if (video.readyState === 0) video.load();
-        video.play().catch(() => {});
+  function getVideo(slide) { return slide.querySelector('video'); }
+
+  function setActive(index, doScroll) {
+    if (index < 0 || index >= slides.length) return;
+    activeIndex = index;
+    slides.forEach(function (slide, i) {
+      var video = getVideo(slide);
+      if (i === activeIndex) {
+        slide.classList.add('active');
+        if (video) {
+          if (video.readyState === 0) video.load();
+          video.play().catch(function () {});
+        }
       } else {
-        video.pause();
+        slide.classList.remove('active');
+        if (video) video.pause();
       }
     });
-  }, { rootMargin: '100px', threshold: 0.2 });
-  document.querySelectorAll('.ugc-video').forEach(v => ugcObs.observe(v));
-}
+    if (doScroll !== false) scrollToActive();
+  }
+
+  function scrollToActive() {
+    var slide = slides[activeIndex];
+    if (!slide) return;
+    var target = slide.offsetLeft - (track.clientWidth / 2) + (slide.offsetWidth / 2);
+    programmingScroll = true;
+    track.scrollTo({ left: target, behavior: 'smooth' });
+    setTimeout(function () { programmingScroll = false; }, 700);
+  }
+
+  /* Desktop: click on inactive slide */
+  slides.forEach(function (slide, i) {
+    slide.addEventListener('click', function (e) {
+      if (e.target.closest('.ugc-mute-btn')) return;
+      if (i !== activeIndex) setActive(i);
+    });
+  });
+
+  /* Mute toggle */
+  track.addEventListener('click', function (e) {
+    var btn = e.target.closest('.ugc-mute-btn');
+    if (!btn) return;
+    var slide = btn.closest('.ugc-slide');
+    var video = slide && getVideo(slide);
+    if (!video) return;
+    video.muted = !video.muted;
+    var im = btn.querySelector('.ugc-icon-muted');
+    var iu = btn.querySelector('.ugc-icon-unmuted');
+    if (im) im.style.display = video.muted ? '' : 'none';
+    if (iu) iu.style.display = video.muted ? 'none' : '';
+  });
+
+  /* Mobile: detect center card after scroll settles */
+  var scrollTimer;
+  track.addEventListener('scroll', function () {
+    if (programmingScroll) return;
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function () {
+      var trackCenter = track.scrollLeft + track.clientWidth / 2;
+      var closest = 0;
+      var closestDist = Infinity;
+      slides.forEach(function (slide, i) {
+        var dist = Math.abs((slide.offsetLeft + slide.offsetWidth / 2) - trackCenter);
+        if (dist < closestDist) { closestDist = dist; closest = i; }
+      });
+      if (closest !== activeIndex) setActive(closest, false);
+    }, 120);
+  });
+
+  /* Init: first card active, no scroll */
+  setActive(0, false);
+})();

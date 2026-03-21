@@ -72,7 +72,7 @@ img{display:block;max-width:100%}
 .prod-card{background:var(--surface-base);border:1.5px solid var(--border-subtle);border-radius:var(--r-xl);overflow:hidden;transition:border-color var(--ease-med),transform var(--ease-med),box-shadow var(--ease-med);box-shadow:var(--shadow-sm);display:flex;flex-direction:column}
 .prod-card:hover{border-color:var(--border-brand);transform:translateY(-4px);box-shadow:var(--shadow-md)}
 .prod-card.card-featured{border-color:var(--juice);box-shadow:var(--shadow-juice)}
-.prod-card-img{background:var(--surface-2);aspect-ratio:1;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.prod-card-img{background:var(--surface-2);aspect-ratio:8/9;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .prod-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.22,1,.36,1)}
 .prod-card:hover .prod-card-img img{transform:scale(1.05)}
 .prod-card-body{padding:var(--sp-5);flex:1;display:flex;flex-direction:column;gap:14px}
@@ -198,26 +198,29 @@ footer{background:var(--juice-deep);padding:28px 24px;text-align:center;border-t
 .avatar-stars{color:var(--juice);font-size:.75rem;letter-spacing:2px;line-height:1}
 .avatar-label{font-size:.72rem;color:var(--tx-muted)}
 
-/* HERO COUPON */
-.hero-coupon{display:inline-flex;align-items:center;gap:7px;background:rgba(245,196,0,.1);border:1px solid rgba(245,196,0,.35);border-radius:var(--r-md);padding:9px 14px;font-size:.78rem;color:var(--tx-secondary);margin-bottom:18px;flex-wrap:wrap}
-.hero-coupon strong{color:var(--citrus-dark)}
-.hero-coupon-code{font-family:'JetBrains Mono',monospace;background:var(--citrus);color:var(--juice-deep);padding:2px 8px;border-radius:4px;font-size:.72rem;font-weight:700;letter-spacing:.04em}
+/* HERO BADGE CODE */
+.hero-badge-code{font-family:'JetBrains Mono',monospace;background:var(--juice);color:#fff;padding:2px 8px;border-radius:4px;font-size:.58rem;font-weight:700;letter-spacing:.04em;text-transform:none}
 
 /* PRODUCTS COUPON HINT */
-.products-coupon-hint{display:flex;align-items:center;gap:8px;background:rgba(245,196,0,.08);border:1px solid rgba(245,196,0,.28);border-radius:var(--r-md);padding:11px 16px;font-size:.78rem;color:var(--tx-secondary);margin-bottom:24px;flex-wrap:wrap;line-height:1.5}
-.products-coupon-hint strong{color:var(--citrus-dark)}
+.products-coupon-hint{display:flex;align-items:center;gap:8px;background:transparent;border:none;border-left:3px solid var(--citrus-dark);border-radius:0;padding:8px 14px;font-size:.78rem;color:var(--tx-secondary);margin-bottom:24px;flex-wrap:wrap;line-height:1.5}
+.products-coupon-hint strong{color:var(--tx-primary)}
 
 /* UGC REVIEWS SECTION */
 .ugc-section-wrap{padding-left:0;padding-right:0;padding-bottom:var(--sp-12)}
-.ugc-inner{max-width:1040px;margin:0 auto;padding:var(--sp-12) var(--sp-6) 0}
-.ugc-title{margin-bottom:4px}
-.ugc-sub{font-size:.82rem;color:var(--tx-muted);margin-bottom:0;padding:0 var(--sp-6);max-width:1040px;margin-left:auto;margin-right:auto;margin-bottom:20px}
-.ugc-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px var(--sp-6) 16px;scrollbar-width:none;-ms-overflow-style:none}
+.ugc-inner{max-width:1040px;margin:0 auto;padding:var(--sp-12) var(--sp-6) 20px}
+.ugc-title{margin-bottom:0}
+.ugc-track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:56px 0 28px;scrollbar-width:none;-ms-overflow-style:none;align-items:center}
 .ugc-track::-webkit-scrollbar{display:none}
-.ugc-card{flex-shrink:0;width:198px;aspect-ratio:9/16;border-radius:var(--r-xl);overflow:hidden;position:relative;background:#111;box-shadow:var(--shadow-md);scroll-snap-align:start}
+.ugc-track::before,.ugc-track::after{content:'';flex-shrink:0;width:calc(50vw - 149px)}
+/* Slide = scroll-snap unit, fixed layout width */
+.ugc-slide{flex-shrink:0;width:297px;aspect-ratio:9/16;scroll-snap-align:center;cursor:pointer;position:relative}
+/* Card = visual element with scale/filter */
+.ugc-card{width:100%;height:100%;border-radius:var(--r-xl);overflow:hidden;position:relative;background:#111;box-shadow:var(--shadow-md);transition:transform .4s cubic-bezier(.2,0,0,1),filter .4s ease;filter:grayscale(1) brightness(0.55);transform:scale(0.8);transform-origin:center}
+.ugc-slide.active .ugc-card{filter:none;transform:scale(1);box-shadow:0 16px 56px rgba(0,0,0,.4)}
 .ugc-video{width:100%;height:100%;object-fit:cover;display:block}
-.ugc-mute-btn{position:absolute;bottom:12px;right:12px;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.18);cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:background var(--ease-fast)}
+.ugc-mute-btn{position:absolute;bottom:14px;right:14px;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.18);cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:background var(--ease-fast)}
 .ugc-mute-btn:hover{background:rgba(0,0,0,.75)}
+.ugc-slide:not(.active) .ugc-mute-btn{display:none}
 
 /* FOOTER PROMO */
 .footer-promo{font-size:.72rem;color:rgba(245,196,0,.75);font-weight:700;margin-bottom:10px;letter-spacing:.03em}
