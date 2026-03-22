@@ -119,8 +119,6 @@ img{display:block;max-width:100%}
 .hero-social{margin-top:14px;display:flex;align-items:center;gap:8px;font-size:.75rem;color:var(--tx-muted)}
 /* HERO VISUAL — desktop photo replacing logo card */
 .hero-visual{flex:0 0 440px;align-self:stretch;position:relative;margin:-40px -24px -36px 0;overflow:hidden;animation:fadeUp .5s .1s var(--ease-spring) both}
-/* gradient overlay: fades white hero bg into the black photo bg */
-.hero-visual::before{content:'';position:absolute;left:0;top:0;bottom:0;width:150px;background:linear-gradient(to right,#fff 0%,transparent 100%);z-index:2;pointer-events:none}
 .hero-visual img{width:100%;height:100%;object-fit:cover;object-position:60% top;display:block}
 /* mobile logo — hidden on desktop */
 .hero-mob-logo{display:none}
@@ -192,14 +190,8 @@ footer{background:var(--juice-deep);padding:28px 24px;text-align:center;border-t
 /* HERO SOCIAL — AVATAR STACK */
 .hero-social{margin-top:14px;display:flex;align-items:center;gap:12px}
 .avatar-stack{display:flex;align-items:center}
-.avatar-img{width:34px;height:34px;border-radius:50%;border:2.5px solid var(--surface-base);background:var(--surface-2);margin-left:-10px;flex-shrink:0;position:relative;overflow:hidden}
+.avatar-img{width:34px;height:34px;border-radius:50%;border:2.5px solid var(--surface-base);margin-left:-10px;flex-shrink:0;overflow:hidden;object-fit:cover;display:block}
 .avatar-img:first-child{margin-left:0}
-.avatar-1{background:linear-gradient(135deg,#bce4d0,#8ecfb0)}
-.avatar-2{background:linear-gradient(135deg,#c4e8d8,#96d4b8)}
-.avatar-3{background:linear-gradient(135deg,#d0ecdc,#a4dcbf)}
-.avatar-4{background:linear-gradient(135deg,#b8e0cc,#8acca8)}
-.avatar-img::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:14px;height:14px;border-radius:50%;background:rgba(6,65,39,.18)}
-.avatar-img::before{content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);width:10px;height:10px;border-radius:50%;background:rgba(6,65,39,.18)}
 .avatar-more{width:34px;height:34px;border-radius:50%;border:2.5px solid var(--surface-base);background:var(--juice-deep);color:var(--citrus);font-size:.55rem;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;justify-content:center;margin-left:-10px;flex-shrink:0}
 .avatar-info{display:flex;flex-direction:column;gap:2px;margin-left:4px}
 .avatar-stars{color:var(--juice);font-size:.75rem;letter-spacing:2px;line-height:1}
