@@ -117,8 +117,13 @@ img{display:block;max-width:100%}
 .hero-chip{display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);border:1px solid var(--border-default);color:var(--tx-secondary);font-size:.7rem;font-weight:600;padding:5px 12px;border-radius:var(--r-pill);box-shadow:var(--shadow-xs)}
 .hero-chip span{width:6px;height:6px;border-radius:50%;background:var(--juice)}
 .hero-social{margin-top:14px;display:flex;align-items:center;gap:8px;font-size:.75rem;color:var(--tx-muted)}
-.hero-logo-wrap{flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:32px 40px;background:var(--surface-base);border:1.5px solid var(--border-subtle);border-radius:var(--r-xl);box-shadow:var(--shadow-md);animation:fadeUp .5s .1s var(--ease-spring) both}
-.hero-logo-wrap img{width:180px;height:60px}
+/* HERO VISUAL — desktop photo replacing logo card */
+.hero-visual{flex:0 0 440px;align-self:stretch;position:relative;margin:-40px -24px -36px 0;overflow:hidden;animation:fadeUp .5s .1s var(--ease-spring) both}
+/* gradient overlay: fades white hero bg into the black photo bg */
+.hero-visual::before{content:'';position:absolute;left:0;top:0;bottom:0;width:150px;background:linear-gradient(to right,#fff 0%,transparent 100%);z-index:2;pointer-events:none}
+.hero-visual img{width:100%;height:100%;object-fit:cover;object-position:60% top;display:block}
+/* mobile logo — hidden on desktop */
+.hero-mob-logo{display:none}
 
 /* SECTIONS */
 .section{padding:var(--sp-12) var(--sp-6);max-width:960px;margin:0 auto}
@@ -231,7 +236,8 @@ footer{background:var(--juice-deep);padding:28px 24px;text-align:center;border-t
 /* RESPONSIVE */
 @media(max-width:680px){
   .pain-grid{grid-template-columns:1fr}
-  .hero-logo-wrap{display:none}
+  .hero-visual{display:none}
+  .hero-mob-logo{display:block;margin:20px auto 0}
   .banner-sep,.banner-frete{display:none}
   .banner-marquee-wrap{display:none}
 }
