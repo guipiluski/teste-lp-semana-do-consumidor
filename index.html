@@ -32,11 +32,19 @@
   src="https://www.facebook.com/tr?id=1927140637798397&ev=PageView&noscript=1"
   /></noscript>
   <!-- End Meta Pixel Code -->
+  <!-- preconnect: fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- preconnect para assets externos críticos -->
-  <link rel="preconnect" href="https://nowaydrink.com.br">
-  <link rel="preconnect" href="https://nowayco.com.br">
+  <!-- preconnect: assets externos críticos -->
+  <link rel="preconnect" href="https://nowayco.com.br" crossorigin>
+  <link rel="preconnect" href="https://nowaydrink.com.br" crossorigin>
+  <link rel="preconnect" href="https://stp.nowayco.com.br" crossorigin>
+  <!-- preload: CSS (reduz render-blocking) -->
+  <link rel="preload" href="styles.css" as="style">
+  <!-- preload: LCP — primeiro produto visível renderizado por JS -->
+  <link rel="preload" as="image"
+    href="https://nowayco.com.br/_next/image?url=https%3A%2F%2Funbox-customer-images-production.s3.amazonaws.com%2F6Cf3ogEqtTKRqAnHc%2Fproducts%2FNowayFresh24Un%2FNowayFresh24Un-1%2F7f8878e2c0003c591aca2ea6d1ec086537d336fe5c36836721fd83b1300e5efe&w=640&q=75"
+    fetchpriority="high">
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
     media="print" onload="this.media='all'">

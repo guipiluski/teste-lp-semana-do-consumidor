@@ -118,8 +118,9 @@ img{display:block;max-width:100%}
 .hero-chip span{width:6px;height:6px;border-radius:50%;background:var(--juice)}
 .hero-social{margin-top:14px;display:flex;align-items:center;gap:8px;font-size:.75rem;color:var(--tx-muted)}
 /* HERO VISUAL — desktop photo replacing logo card */
+/* aspect-ratio evita CLS enquanto a imagem carrega (width/height no HTML tb ajudam) */
 .hero-visual{flex:0 0 440px;align-self:stretch;position:relative;margin:-40px -24px -36px 0;overflow:hidden;animation:fadeUp .5s .1s var(--ease-spring) both}
-.hero-visual img{width:100%;height:100%;object-fit:cover;object-position:60% top;display:block}
+.hero-visual img{width:100%;height:100%;object-fit:cover;object-position:60% top;display:block;aspect-ratio:440/560}
 /* mobile logo — hidden on desktop */
 .hero-mob-logo{display:none}
 
